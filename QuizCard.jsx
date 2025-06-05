@@ -1,0 +1,1 @@
+// Code omitted for brevity (see canvas document)
