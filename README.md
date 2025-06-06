@@ -61,24 +61,20 @@ pytest test_main.py
 ---
 
 ## 🌐 Deploy on Render (Recommended)
-1. Push code to GitHub
-2. Create a **Web Service** for `main.py`:
-   - Build command: `pip install -r requirements.txt`
-   - Start command: `uvicorn main:app --host 0.0.0.0 --port 10000`
-3. Create a **Static Site** for `frontend/`:
-   - Build command: `npm install && npm run build`
-   - Publish directory: `build`
 
----
+.render.yaml — Infrastructure as Code for Render Deployment
 
-## 🔒 Environment Variables
-Place in `.env` or use Render/Actions secrets:
-```
-OPENAI_API_KEY=sk-...
-FRONTEND_ORIGIN=http://localhost:3000
-```
+services:
 
----
+type: web name: chatbot-backend env: python buildCommand: "pip install -r requirements.txt" startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 10000" envVars:
+
+key: OPENAI_API_KEY sync: false
+
+key: FRONTEND_ORIGIN value: https://chatbot-frontend.onrender.com plan: free autoDeploy: true
+
+
+type: static name: chatbot-frontend buildCommand: "npm install && npm run build" staticPublishPath: build env: node plan: free autoDeploy: true
+
 
 ## 📁 Project Structure
 ```
